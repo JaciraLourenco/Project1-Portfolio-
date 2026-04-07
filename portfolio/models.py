@@ -71,3 +71,27 @@ class Tecnologia(models.Model):
 
     def __str__(self):
         return self.nome
+
+class TFC(models.Model):
+    INTERESSE_CHOICES = [
+        (1, '⭐ Pouco interessante'),
+        (2, '⭐⭐ Interessante'),
+        (3, '⭐⭐⭐ Muito interessante'),
+    ]
+
+    titulo = models.CharField(max_length=500)
+    autores = models.TextField()
+    orientadores = models.TextField(blank=True)
+    licenciatura = models.CharField(max_length=300, blank=True)
+    resumo = models.TextField(blank=True)
+    palavras_chave = models.TextField(blank=True)
+    areas = models.TextField(blank=True)
+    tecnologias = models.TextField(blank=True)
+    ano = models.CharField(max_length=10, blank=True)
+    imagem_url = models.URLField(blank=True)
+    link_pdf = models.URLField(blank=True)
+    email = models.EmailField(blank=True)
+    classificacao_interesse = models.IntegerField(choices=INTERESSE_CHOICES, default=2)
+
+    def __str__(self):
+        return self.titulo
