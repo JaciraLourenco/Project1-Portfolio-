@@ -137,3 +137,28 @@ class Formacao(models.Model):
 
     def __str__(self):
         return f"{self.nome} - {self.instituicao}"
+
+class MakingOf(models.Model):
+    TIPO_CHOICES = [
+        ('decisao', 'Decisão de Modelação'),
+        ('erro', 'Erro e Correção'),
+        ('diagrama', 'Diagrama/Esquema'),
+        ('foto', 'Foto do Caderno'),
+        ('ia', 'Uso de IA'),
+        ('outro', 'Outro'),
+    ]
+
+    titulo = models.CharField(max_length=200)
+    tipo = models.CharField(max_length=50, choices=TIPO_CHOICES)
+    descricao = models.TextField()
+    foto = models.ImageField(upload_to='makingof/', blank=True, null=True)
+    data = models.DateField(auto_now_add=True)
+    entidade_relacionada = models.CharField(max_length=100, blank=True, help_text="Ex: Licenciatura, Projeto, TFC...")
+
+    class Meta:
+        ordering = ['-data']
+        verbose_name = 'Making Of'
+        verbose_name_plural = 'Making Of'
+
+    def __str__(self):
+        return f"{self.tipo} - {self.titulo}"

@@ -5,6 +5,8 @@ from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao
+from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao, MakingOf
+
 
 @admin.register(Licenciatura)
 class LicenciaturaAdmin(admin.ModelAdmin):
@@ -47,3 +49,10 @@ class FormacaoAdmin(admin.ModelAdmin):
     list_display = ('nome', 'instituicao', 'tipo', 'data_inicio', 'em_curso')
     search_fields = ('nome', 'instituicao')
     list_filter = ('tipo', 'em_curso')
+
+@admin.register(MakingOf)
+class MakingOfAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'tipo', 'entidade_relacionada', 'data')
+    search_fields = ('titulo', 'descricao')
+    list_filter = ('tipo', 'entidade_relacionada')
+
