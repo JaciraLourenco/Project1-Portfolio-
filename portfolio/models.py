@@ -112,3 +112,28 @@ class Competencia(models.Model):
 
     def __str__(self):
         return self.nome
+
+class Formacao(models.Model):
+    TIPO_CHOICES = [
+        ('academica', 'Académica'),
+        ('curso', 'Curso Online'),
+        ('certificacao', 'Certificação'),
+        ('workshop', 'Workshop'),
+        ('outro', 'Outro'),
+    ]
+
+    nome = models.CharField(max_length=200)
+    instituicao = models.CharField(max_length=200)
+    tipo = models.CharField(max_length=50, choices=TIPO_CHOICES)
+    descricao = models.TextField(blank=True)
+    data_inicio = models.DateField()
+    data_fim = models.DateField(blank=True, null=True)
+    em_curso = models.BooleanField(default=False)
+    certificado = models.FileField(upload_to='certificados/', blank=True, null=True)
+    link = models.URLField(blank=True)
+
+    class Meta:
+        ordering = ['-data_inicio']
+
+    def __str__(self):
+        return f"{self.nome} - {self.instituicao}"

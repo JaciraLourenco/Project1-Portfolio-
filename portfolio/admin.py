@@ -4,6 +4,7 @@ from .models import Licenciatura, UnidadeCurricular, Projeto
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia
+from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao
 
 @admin.register(Licenciatura)
 class LicenciaturaAdmin(admin.ModelAdmin):
@@ -40,3 +41,9 @@ class CompetenciaAdmin(admin.ModelAdmin):
     search_fields = ('nome',)
     list_filter = ('tipo',)
 
+
+@admin.register(Formacao)
+class FormacaoAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'instituicao', 'tipo', 'data_inicio', 'em_curso')
+    search_fields = ('nome', 'instituicao')
+    list_filter = ('tipo', 'em_curso')
