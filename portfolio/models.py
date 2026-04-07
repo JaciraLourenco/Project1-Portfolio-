@@ -43,3 +43,31 @@ class Projeto(models.Model):
 
     def __str__(self):
         return self.nome
+
+class Tecnologia(models.Model):
+    NIVEL_CHOICES = [
+        (1, '⭐ Iniciante'),
+        (2, '⭐⭐ Básico'),
+        (3, '⭐⭐⭐ Intermédio'),
+        (4, '⭐⭐⭐⭐ Avançado'),
+        (5, '⭐⭐⭐⭐⭐ Expert'),
+    ]
+    
+    CATEGORIA_CHOICES = [
+        ('linguagem', 'Linguagem de Programação'),
+        ('framework', 'Framework'),
+        ('base_dados', 'Base de Dados'),
+        ('ferramenta', 'Ferramenta'),
+        ('outro', 'Outro'),
+    ]
+
+    nome = models.CharField(max_length=100)
+    categoria = models.CharField(max_length=50, choices=CATEGORIA_CHOICES)
+    descricao = models.TextField(blank=True)
+    logo = models.ImageField(upload_to='tecnologias/', blank=True, null=True)
+    link_oficial = models.URLField(blank=True)
+    nivel_interesse = models.IntegerField(choices=NIVEL_CHOICES, default=3)
+    projetos = models.ManyToManyField(Projeto, blank=True, related_name='tecnologias_usadas')
+
+    def __str__(self):
+        return self.nome
