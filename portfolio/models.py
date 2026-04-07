@@ -95,3 +95,20 @@ class TFC(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class Competencia(models.Model):
+    TIPO_CHOICES = [
+        ('tecnica', 'Técnica'),
+        ('soft', 'Soft Skill'),
+        ('linguistica', 'Linguística'),
+        ('outra', 'Outra'),
+    ]
+
+    nome = models.CharField(max_length=200)
+    tipo = models.CharField(max_length=50, choices=TIPO_CHOICES)
+    descricao = models.TextField(blank=True)
+    projetos = models.ManyToManyField(Projeto, blank=True, related_name='competencias')
+    tecnologias = models.ManyToManyField(Tecnologia, blank=True, related_name='competencias')
+
+    def __str__(self):
+        return self.nome

@@ -3,6 +3,7 @@ from .models import Licenciatura, UnidadeCurricular
 from .models import Licenciatura, UnidadeCurricular, Projeto
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC
+from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia
 
 @admin.register(Licenciatura)
 class LicenciaturaAdmin(admin.ModelAdmin):
@@ -32,3 +33,10 @@ class TFCAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'autores', 'ano', 'classificacao_interesse')
     search_fields = ('titulo', 'autores')
     list_filter = ('ano', 'classificacao_interesse')
+
+@admin.register(Competencia)
+class CompetenciaAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'tipo')
+    search_fields = ('nome',)
+    list_filter = ('tipo',)
+
