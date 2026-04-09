@@ -6,6 +6,8 @@ from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao
 from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao, MakingOf
+from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao, MakingOf, Evento
+
 
 
 @admin.register(Licenciatura)
@@ -56,3 +58,8 @@ class MakingOfAdmin(admin.ModelAdmin):
     search_fields = ('titulo', 'descricao')
     list_filter = ('tipo', 'entidade_relacionada')
 
+@admin.register(Evento)
+class EventoAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'tipo', 'local', 'data')
+    search_fields = ('nome', 'local')
+    list_filter = ('tipo',)

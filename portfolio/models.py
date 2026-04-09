@@ -162,3 +162,27 @@ class MakingOf(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.titulo}"
+
+
+class Evento(models.Model):
+    TIPO_CHOICES = [
+        ('conferencia', 'Conferência'),
+        ('workshop', 'Workshop'),
+        ('seminario', 'Seminário'),
+        ('outro', 'Outro'),
+    ]
+
+    nome = models.CharField(max_length=200)
+    tipo = models.CharField(max_length=50, choices=TIPO_CHOICES)
+    descricao = models.TextField(blank=True)
+    local = models.CharField(max_length=200, blank=True)
+    data = models.DateField()
+    link = models.URLField(blank=True)
+    imagem = models.ImageField(upload_to='eventos/', blank=True, null=True)
+    certificado = models.FileField(upload_to='eventos/certificados/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['-data']
+
+    def __str__(self):
+        return f"{self.nome} ({self.tipo})"
