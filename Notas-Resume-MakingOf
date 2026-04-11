@@ -1,0 +1,84 @@
+Projecto Parte1- Portfólio Pessoal
+
+Objectivo
+Criar um portfólio pessoal modelado em Django com várias entidades: Licenciatura, UCs, Projetos, Tecnologias, TFCs, Competências, Formações e MakingOf.
+Ambiente de criação: decidi usar o GitHub Codespaces em vez de instalar tudo localmente no Windows, porque é mais prático e não preciso de configurar o ambiente.
+
+Configuração do ambiente
+•	Criei o repositório no GitHub: Project1-Portfolio;
+•	Abri o Codespace a partir do repositório;
+•	Instalei o Django: pip install django;
+•	Criei o projeto: django-admin startproject config;
+•	Fiz as migrações iniciais e criei o superuser (admin);
+•	Testei o servidor e entrei no admin;
+•	Configurei o MEDIA_ROOT e MEDIA_URL no settings.py para suporte a imagens;
+•	Atualizei o urls.py para servir ficheiros media;
+•	Esqueci-me de criar o .gitignore, as imagens adiciconadas foram para o GitHub. Corrigi depois adicionando media/ e *.sqlite3 ao .gitignore.
+
+Desenvolvimento
+Comecei por criar a app portfolio e a implementar os primeiros modelos. O processo para cada modelo foi sempre o mesmo: definir o modelo, fazer makemigrations + migrate, registar no admin, testar e só depois fazer commit.
+
+Modelo: Licenciatura
+O primeiro modelo criado. Atributos simples como: nome, instituição, área, duração, descrição e link. Usei CharField para textos curtos, TextField para textos longos e URLField para links.
+Modelo criado e testado no admin, dados reais adicionados e depois Commit: 'Adicionar modelo Licenciatura com admin'.
+
+
+Modelo: UnidadeCurricular
+Este modelo já tem uma relação com a Licenciatura, usei ForeignKey porque cada UC pertence a uma única Licenciatura (relação 1 para N). Usei on_delete=CASCADE porque sem licenciatura não faz sentido a UC existir.
+Adicionei ImageField para associar uma imagem a cada UC. Para isso precisei de instalar a biblioteca Pillow.
+pip install Pillow: necessário para ImageField, adicionei 4 UCs manualmente no admin para testar. As imagens carregadas foram para o GitHub, o que não era suposto. Resolvi criando o .gitignore. No final Commit: 'Adicionar modelo UnidadeCurricular com relacao a Licenciatura'.
+
+Modelo: Projeto
+Modelo criado para projetos realizados nas UCs. Tem ForeignKey para UC com on_delete=SET_NULL. Ao contrário da UC, se apagar a UC o projeto não deve ser eliminado, tem valor independente.
+Adicionei como teste de dados iniciais os projetos: Data Warehouse MediaFlix realizado na UC Sistemas de Suporte à Decisão e Portfólio Wix realizado na UC Competências Comportamentais, no final Commit: 'Adicionar modelo Projeto e dados iniciais'.
+
+Modelo: Tecnologia
+Criado o modelo tecnologia, usei ManyToManyField para ligar Tecnologias a Projetos, porque uma tecnologia pode estar em vários projetos e um projeto pode usar várias tecnologias.
+Adicionei um campo nivel_interesse com choices de 1 a 5 estrelas para representar a minha preferência pessoal por cada tecnologia, conforme pedido no enunciado.
+Adicionei as tecnologias: Python, Django, SQL, Git, Wix, Oracle Data Modeler, por fim Commit: 'Adicionar modelo Tecnologia com relacao a Projeto'.
+
+Modelo: TFC
+O enunciado pedia para modelar os TFCs com base no JSON criado anteriormente. O JSON tinha 636 TFCs com campos como titulo, autores, orientadores, resumo, palavras_chave, areas, tecnologias, ano, imagem e rating.
+Criei um script Python (carregar_tfcs.py) para carregar os 636 TFCs automaticamente, usando get_or_create para evitar duplicados.
+Um erro encontrado: o modelo tinha o campo autor mas no JSON tinha autores (lista). Corrigi para TextField e atualizei o admin. Tive o erro admin.E108.
+Durante a migração o Django perguntou se descricao foi renomeado para areas, respondi N e forneci valor default vazio. Resultado 636 TFCs carregados com sucesso. Por fim Commit: 'Adicionar modelo TFC e carregar 636 TFCs do JSON'.
+
+Modelo: Competencia
+Criado o modelo, usei ManyToManyField para ligar Competências a Projetos e a Tecnologias. 
+Adicionei 6 competências, sendo essas dos tipo técnicas, soft skills e linguísticas. Por fim Commit: 'Adicionar modelo Competencia e dados iniciais'.
+
+Modelo: Formacao
+Neste modelo adicionei BooleanField em_curso para indicar se a formação ainda está a decorrer. Usei class Meta com ordering=['-data_inicio'] para ordenar automaticamente por data mais recente.
+Adicionei os seguintes dados: Licenciatura em Informática de Gestão (em curso) e cursos/certificados que tenho. Por fim Commit: 'Adicionar modelo Formacao'.
+
+Modelo: MakingOf
+Regista o processo de desenvolvimento do projecto tendo como campos: título, tipo (decisão, erro, diagrama, foto, uso de IA, outro), descrição, foto e entidade relacionada.
+O campo data usa auto_now_add=True para ser preenchido automaticamente com a data atual. Nesta adicionei registos sobre as decisões de modelação, alguns erros encontrados e uso de IA e também o DER desenhado no caderno. Por fim Commit: 'Adicionar modelo MakingOf e registos iniciais'.
+
+Modelo: Evento (Entidade Extra)
+Escolhi adicionar a entidade Evento como minha entidade adicional porque acredito que a participação em eventos como conferências e workshops são muito valorizados em CVs e portfólios profissionais, demonstrando a busca pelo aprendizado, evoluçao e desenvolvimento constante para além do percurso académico formal. Por fim Commit: 'Adicionar modelo Evento como entidade adicional'.
+Carregamento das UCs via API da Lusófona
+No trabalho é pedido para usar a API da Lusófona para carregar os dados do curso. Tentei correr o script no Codespace mas falhou com timeout, o Codespace não conseguia aceder à API.
+Deu o erro: ConnectTimeout ao tentar aceder a secure.ensinolusofona.pt no Codespace. 
+Optei por solução correr o script no meu Windows local para descarregar o JSON. O resultado foi o JSON descarregado 32 UCs do curso (LIG). Fiz o Upload do JSON para o GitHub e a seguir pull no Codespace. No caso foram criadas apenas 28 UCs automaticamente porque 4 já existiam devido a criação manual no modelo UnidadeCurricular.
+
+Correção dos semestres
+A API devolveu None para o campo term (semestre) em todas as UCs. Por isso o script colocou sempre semestre 1 por defeito.
+Todas as 32 UCs ficaram com semestre 1, o que estava errado. Após consultar o plano curricular oficial no site da Lusófona, criei script corrigir_semestres.py com os semestres reais de cada UC. As 32 UCs foram atualizadas com os semestres corretos. Por fim Commit: 'Corrigir semestres das UCs do LIG com base no plano curricular oficial'.
+
+Decisões de Modelação
+Uso de ForeignKey com CASCADE na UC - Licenciatura: sem licenciatura não faz sentido a UC existir;
+Uso de ForeignKey com SET_NULL no Projeto - UC: o projeto tem valor independente da UC;
+Usar ManyToManyField entre Tecnologia e Projeto: uma tecnologia pode estar em vários projetos e vice-versa;
+Atributo nivel_interesse em Tecnologia: representa preferência pessoal, não o nível de conhecimento técnico;
+Com auto_now_add=True no MakingOf: a data é preenchida automaticamente para não esquecer de registar;
+A entidade extra Evento: escolhida por ser relevante para portfólios profissionais.
+
+Uso de ferramenta de IA
+Usei a IA como assistente ao longo de todo o desenvolvimento, funcionou como um tutor que explicou conceitos, ajudou a entender erros e apresentava opções de resolução, e no final eu decido o que vale ou não a pena.
+Como foi usada:
+•	Guia de ordem de trabalho;
+•	Explicação de conceitos Django;
+•	Interpretação e ajuda na resolução de mensagens de erro;
+•	Geração de scripts de carregamento de dados;
+•	Esclarecimento de dúvidas sobre o enunciado.
