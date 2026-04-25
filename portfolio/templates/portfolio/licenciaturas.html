@@ -1,0 +1,26 @@
+<!-- portfolio/templates/portfolio/licenciaturas.html -->
+{% extends "portfolio/base.html" %}
+{% block content %}
+<h2>Licenciaturas</h2>
+<section>
+  {% for licenciatura in licenciaturas %}
+  <article>
+    <header>
+      <h3>{{ licenciatura.nome }}</h3>
+      <p>{{ licenciatura.instituicao }}</p>
+      <p>{{ licenciatura.area }} — {{ licenciatura.duracao_anos }} anos</p>
+    </header>
+    <section>
+      <h4>Unidades Curriculares</h4>
+      <ul>
+        {% for unidade in licenciatura.unidades.all %}
+          <li>{{ unidade.nome }} ({{ unidade.ano }}º ano)</li>
+        {% empty %}
+          <li>Sem unidades curriculares</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

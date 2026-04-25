@@ -1,0 +1,21 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<h2>Eventos</h2>
+<section>
+  {% for evento in eventos %}
+  <article>
+    <header>
+      <h3>{{ evento.nome }}</h3>
+      <p>{{ evento.get_tipo_display }}</p>
+      <p>{{ evento.data }}</p>
+      {% if evento.local %}<p>{{ evento.local }}</p>{% endif %}
+    </header>
+    {% if evento.descricao %}
+    <section>
+      <p>{{ evento.descricao }}</p>
+    </section>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

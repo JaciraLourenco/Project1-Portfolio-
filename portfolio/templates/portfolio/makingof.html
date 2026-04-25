@@ -1,0 +1,21 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<h2>Making Of</h2>
+<section>
+  {% for item in makingof %}
+  <article>
+    <header>
+      <h3>{{ item.titulo }}</h3>
+      <p>{{ item.get_tipo_display }}</p>
+      <p>{{ item.data }}</p>
+      {% if item.entidade_relacionada %}
+        <p>{{ item.entidade_relacionada }}</p>
+      {% endif %}
+    </header>
+    <section>
+      <p>{{ item.descricao }}</p>
+    </section>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

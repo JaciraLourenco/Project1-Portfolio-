@@ -1,0 +1,24 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<h2>TFCs</h2>
+<section>
+  {% for tfc in tfcs %}
+  <article>
+    <header>
+      <h3>{{ tfc.titulo }}</h3>
+      <p>{{ tfc.autores }}</p>
+      {% if tfc.ano %}<p>{{ tfc.ano }}</p>{% endif %}
+      {% if tfc.licenciatura %}<p>{{ tfc.licenciatura }}</p>{% endif %}
+    </header>
+    <section>
+      <h4>Resumo</h4>
+      <p>{{ tfc.resumo }}</p>
+      {% if tfc.palavras_chave %}
+        <h4>Palavras-chave</h4>
+        <p>{{ tfc.palavras_chave }}</p>
+      {% endif %}
+    </section>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}
