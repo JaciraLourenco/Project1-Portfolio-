@@ -1,6 +1,7 @@
 {% extends "portfolio/base.html" %}
 {% block content %}
 <h2>Formações</h2>
+<a href="{% url 'formacao_criar' %}">+ Nova Formação</a>
 <section>
   {% for formacao in formacoes %}
   <article>
@@ -9,6 +10,8 @@
       <p>{{ formacao.instituicao }}</p>
       <p>{{ formacao.get_tipo_display }}</p>
       <p>{{ formacao.data_inicio }} — {% if formacao.em_curso %}Em curso{% else %}{{ formacao.data_fim }}{% endif %}</p>
+      <a href="{% url 'formacao_editar' formacao.id %}">Editar</a>
+      <a href="{% url 'formacao_apagar' formacao.id %}">Apagar</a>
     </header>
     {% if formacao.descricao %}
     <section>

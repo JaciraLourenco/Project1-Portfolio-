@@ -1,6 +1,7 @@
 {% extends "portfolio/base.html" %}
 {% block content %}
 <h2>Projetos</h2>
+<a href="{% url 'projeto_criar' %}">+ Novo Projeto</a>
 <section>
   {% for projeto in projetos %}
   <article>
@@ -11,6 +12,8 @@
         <p>UC: {{ projeto.unidade_curricular.nome }}</p>
       {% endif %}
       {% if projeto.data %}<p>{{ projeto.data }}</p>{% endif %}
+      <a href="{% url 'projeto_editar' projeto.id %}">Editar</a>
+      <a href="{% url 'projeto_apagar' projeto.id %}">Apagar</a>
     </header>
     <section>
       <h4>Tecnologias</h4>

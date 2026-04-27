@@ -1,12 +1,15 @@
 {% extends "portfolio/base.html" %}
 {% block content %}
 <h2>Competências</h2>
+<a href="{% url 'competencia_criar' %}">+ Nova Competência</a>
 <section>
   {% for competencia in competencias %}
   <article>
     <header>
       <h3>{{ competencia.nome }}</h3>
       <p>{{ competencia.get_tipo_display }}</p>
+      <a href="{% url 'competencia_editar' competencia.id %}">Editar</a>
+      <a href="{% url 'competencia_apagar' competencia.id %}">Apagar</a>
     </header>
     <section>
       <h4>Projetos</h4>
