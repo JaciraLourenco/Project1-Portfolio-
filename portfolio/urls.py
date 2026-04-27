@@ -23,4 +23,5 @@ urlpatterns = [
     path('formacoes/<int:id>/apagar/', views.formacao_apagar_view, name='formacao_apagar'),
     path('eventos/', views.eventos_view, name='eventos'),
     path('makingof/', views.makingof_view, name='makingof'),
+    path('sobre/', views.sobre_view, name='sobre'),
 ]

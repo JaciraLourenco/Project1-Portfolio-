@@ -1,14 +1,6 @@
 from django.contrib import admin
-from .models import Licenciatura, UnidadeCurricular
-from .models import Licenciatura, UnidadeCurricular, Projeto
-from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia
-from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC
-from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia
-from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao
-from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao, MakingOf
-from .models import Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao, MakingOf, Evento
-
-
+from .models import (Licenciatura, UnidadeCurricular, Projeto, Tecnologia,
+                     TipoTecnologia, TFC, Competencia, Formacao, MakingOf, Evento)
 
 @admin.register(Licenciatura)
 class LicenciaturaAdmin(admin.ModelAdmin):
@@ -25,13 +17,17 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
 class ProjetoAdmin(admin.ModelAdmin):
     list_display = ('nome', 'unidade_curricular', 'data')
     search_fields = ('nome', 'tecnologias')
-    list_filter = ('unidade_curricular',)   
+    list_filter = ('unidade_curricular',)
+
+@admin.register(TipoTecnologia)
+class TipoTecnologiaAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
 
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'categoria', 'nivel_interesse')
+    list_display = ('nome', 'tipo', 'nivel_interesse')
     search_fields = ('nome',)
-    list_filter = ('categoria', 'nivel_interesse')
+    list_filter = ('tipo', 'nivel_interesse')
 
 @admin.register(TFC)
 class TFCAdmin(admin.ModelAdmin):
@@ -44,7 +40,6 @@ class CompetenciaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'tipo')
     search_fields = ('nome',)
     list_filter = ('tipo',)
-
 
 @admin.register(Formacao)
 class FormacaoAdmin(admin.ModelAdmin):

@@ -1,0 +1,60 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<h2>Sobre esta Aplicação</h2>
+
+<section>
+  <article>
+    <header><h3>Arquitetura MVT do Django</h3></header>
+    <section>
+      <p>Esta aplicação segue o padrão MVT (Model-View-Template) do Django:</p>
+      <ul>
+        <li><strong>Model</strong> : define a estrutura dos dados e interage com a base de dados</li>
+        <li><strong>View</strong> : recebe os pedidos HTTP, vai buscar os dados ao Model e passa-os ao Template</li>
+        <li><strong>Template</strong> : recebe os dados da View e renderiza o HTML final que é enviado ao browser</li>
+      </ul>
+      <!-- URL do vídeo tutorial quando estiver feito -->
+      <!-- <iframe width="560" height="315" src="URL_DO_VIDEO" frameborder="0" allowfullscreen></iframe> -->
+    </section>
+  </article>
+
+  <article>
+    <header><h3>Modelação</h3></header>
+    <section>
+      <p>A aplicação tem os seguintes modelos: Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao, MakingOf, Evento.</p>
+    </section>
+  </article>
+
+  <article>
+    <header><h3>Tecnologias Usadas</h3></header>
+    <section>
+      <ul>
+        {% for tec in tecnologias %}
+          <li><strong>{{ tec.nome }}</strong> {{ tec.get_categoria_display }}</li>
+        {% empty %}
+          <li>Sem tecnologias registadas</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </article>
+
+  <article>
+    <header><h3>Repositório GitHub</h3></header>
+    <section>
+      <p><a href="https://github.com/JaciraLourenco/Project1-Portfolio-" target="_blank">Ver repositório no GitHub</a></p>
+    </section>
+  </article>
+
+  <article>
+    <header><h3>Making Of</h3></header>
+    <section>
+      <ul>
+        {% for item in makingof %}
+          <li><strong>{{ item.titulo }}</strong> : {{ item.get_tipo_display }} ({{ item.data }})</li>
+        {% empty %}
+          <li>Sem entradas no making of</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </article>
+</section>
+{% endblock %}

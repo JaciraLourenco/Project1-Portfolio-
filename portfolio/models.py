@@ -44,6 +44,19 @@ class Projeto(models.Model):
     def __str__(self):
         return self.nome
 
+class TipoTecnologia(models.Model):
+    TIPO_CHOICES = [
+        ('frontend', 'Frontend'),
+        ('backend', 'Backend'),
+        ('base_dados', 'Base de Dados'),
+        ('storage', 'Storage'),
+        ('outro', 'Outro'),
+    ]
+    nome = models.CharField(max_length=100, choices=TIPO_CHOICES)
+
+    def __str__(self):
+        return self.get_nome_display()
+
 class Tecnologia(models.Model):
     NIVEL_CHOICES = [
         (1, '⭐ Iniciante'),
@@ -52,17 +65,9 @@ class Tecnologia(models.Model):
         (4, '⭐⭐⭐⭐ Avançado'),
         (5, '⭐⭐⭐⭐⭐ Expert'),
     ]
-    
-    CATEGORIA_CHOICES = [
-        ('linguagem', 'Linguagem de Programação'),
-        ('framework', 'Framework'),
-        ('base_dados', 'Base de Dados'),
-        ('ferramenta', 'Ferramenta'),
-        ('outro', 'Outro'),
-    ]
 
     nome = models.CharField(max_length=100)
-    categoria = models.CharField(max_length=50, choices=CATEGORIA_CHOICES)
+    tipo = models.ForeignKey(TipoTecnologia, on_delete=models.SET_NULL, null=True, blank=True, related_name='tecnologias')
     descricao = models.TextField(blank=True)
     logo = models.ImageField(upload_to='tecnologias/', blank=True, null=True)
     link_oficial = models.URLField(blank=True)
@@ -72,6 +77,7 @@ class Tecnologia(models.Model):
     def __str__(self):
         return self.nome
 
+        
 class TFC(models.Model):
     INTERESSE_CHOICES = [
         (1, '⭐ Pouco interessante'),

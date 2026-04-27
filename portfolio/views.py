@@ -149,3 +149,11 @@ def eventos_view(request):
 def makingof_view(request):
     makingof = MakingOf.objects.all()
     return render(request, 'portfolio/makingof.html', {'makingof': makingof})
+
+def sobre_view(request):
+    makingof = MakingOf.objects.all()
+    tecnologias = Tecnologia.objects.all()
+    return render(request, 'portfolio/sobre.html', {
+        'makingof': makingof,
+        'tecnologias': tecnologias,
+    })
