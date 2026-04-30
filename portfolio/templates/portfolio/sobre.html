@@ -1,4 +1,5 @@
 {% extends "portfolio/base.html" %}
+{% load static %}
 {% block content %}
 <h2>Sobre esta Aplicação</h2>
 
@@ -12,6 +13,7 @@
         <li><strong>View</strong> : recebe os pedidos HTTP, vai buscar os dados ao Model e passa-os ao Template</li>
         <li><strong>Template</strong> : recebe os dados da View e renderiza o HTML final que é enviado ao browser</li>
       </ul>
+      <img src="{% static 'portfolio/arquitetura.jpeg' %}" alt="Arquitetura MVT">
       <!-- URL do vídeo tutorial quando estiver feito -->
       <!-- <iframe width="560" height="315" src="URL_DO_VIDEO" frameborder="0" allowfullscreen></iframe> -->
     </section>
@@ -20,7 +22,15 @@
   <article>
     <header><h3>Modelação</h3></header>
     <section>
-      <p>A aplicação tem os seguintes modelos: Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TFC, Competencia, Formacao, MakingOf, Evento.</p>
+      <p>A aplicação tem os seguintes modelos: Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TipoTecnologia, TFC, Competencia, Formacao, MakingOf, Evento.</p>
+      <img src="{% static 'portfolio/der.jpeg' %}" alt="Diagrama Entidade Relação">
+    </section>
+  </article>
+
+  <article>
+    <header><h3>Estrutura de Navegação</h3></header>
+    <section>
+      <img src="{% static 'portfolio/navegacao.jpeg' %}" alt="Estrutura de Navegação">
     </section>
   </article>
 
@@ -29,7 +39,7 @@
     <section>
       <ul>
         {% for tec in tecnologias %}
-          <li><strong>{{ tec.nome }}</strong> {{ tec.get_categoria_display }}</li>
+          <li><strong>{{ tec.nome }}</strong> — {{ tec.tipo }}</li>
         {% empty %}
           <li>Sem tecnologias registadas</li>
         {% endfor %}
