@@ -13,7 +13,9 @@
         <li><strong>View</strong> : recebe os pedidos HTTP, vai buscar os dados ao Model e passa-os ao Template</li>
         <li><strong>Template</strong> : recebe os dados da View e renderiza o HTML final que é enviado ao browser</li>
       </ul>
-      <img src="{% static 'portfolio/arquitetura.jpeg' %}" alt="Arquitetura MVT">
+      <a href="{% static 'portfolio/arquitetura.jpeg' %}" target="_blank">
+        <button>Ver Arquitetura MVT</button>
+      </a>
       <!-- URL do vídeo tutorial quando estiver feito -->
       <!-- <iframe width="560" height="315" src="URL_DO_VIDEO" frameborder="0" allowfullscreen></iframe> -->
     </section>
@@ -23,14 +25,19 @@
     <header><h3>Modelação</h3></header>
     <section>
       <p>A aplicação tem os seguintes modelos: Licenciatura, UnidadeCurricular, Projeto, Tecnologia, TipoTecnologia, TFC, Competencia, Formacao, MakingOf, Evento.</p>
-      <img src="{% static 'portfolio/der.jpeg' %}" alt="Diagrama Entidade Relação">
+      <a href="{% static 'portfolio/der.jpeg' %}" target="_blank">
+        <button>Ver Diagrama Entidade Relação</button>
+      </a>
     </section>
   </article>
 
   <article>
     <header><h3>Estrutura de Navegação</h3></header>
     <section>
-      <img src="{% static 'portfolio/navegacao.jpeg' %}" alt="Estrutura de Navegação">
+       <p>A aplicação está organizada em duas secções principais: <strong>Escola</strong> e <strong>Portfolio</strong>. A secção Escola permite visualizar cursos, professores e alunos. A secção Portfolio permite gerir projetos, tecnologias, competências, formações, TFCs, eventos e making of, com operações CRUD nas principais entidades.</p>
+      <a href="{% static 'portfolio/navegacao.jpeg' %}" target="_blank">
+        <button>Ver Estrutura de Navegação</button>
+      </a>
     </section>
   </article>
 
@@ -39,13 +46,16 @@
     <section>
       <ul>
         {% for tec in tecnologias %}
-          <li><strong>{{ tec.nome }}</strong> — {{ tec.tipo }}</li>
+          <li>
+            <strong>{{ tec.nome }}</strong>
+            {% if tec.tipo %} — {{ tec.tipo }}{% endif %}
+          </li>
         {% empty %}
           <li>Sem tecnologias registadas</li>
         {% endfor %}
       </ul>
     </section>
-  </article>
+</article>
 
   <article>
     <header><h3>Repositório GitHub</h3></header>
