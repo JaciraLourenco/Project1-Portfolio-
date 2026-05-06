@@ -1,0 +1,14 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<h2>Logout</h2>
+<section>
+  <article>
+    <p>Tens a certeza que queres sair?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Sair</button>
+    </form>
+    <p><a href="{% url 'portfolio' %}">Cancelar</a></p>
+  </article>
+</section>
+{% endblock %}

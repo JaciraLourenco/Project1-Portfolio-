@@ -16,8 +16,10 @@ def login_view(request):
     return render(request, 'accounts/login.html')
 
 def logout_view(request):
-    logout(request)
-    return redirect('login')
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
+    return render(request, 'accounts/logout.html')
 
 def registo_view(request):
     if request.method == 'POST':
