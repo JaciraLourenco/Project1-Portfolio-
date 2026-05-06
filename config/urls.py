@@ -26,7 +26,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("escola/", include("escola.urls")), 
     path("portfolio/", include("portfolio.urls")),
-    path("", include("escola.urls")),  #  rota para app escola sem precisar de escrever "escola"
+    ##path("", include("escola.urls")),  #  rota para app escola sem precisar de escrever "escola"
+    path("accounts/", include("accounts.urls")),
 ]
 
 if settings.DEBUG:

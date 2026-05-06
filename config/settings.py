@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "portfolio",
     "escola",
-    "markdownify.apps.MarkdownifyConfig"
+    "markdownify.apps.MarkdownifyConfig",
+    "accounts"
 ]
 
 MIDDLEWARE = [
