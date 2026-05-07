@@ -1,7 +1,9 @@
 {% extends "portfolio/base.html" %}
 {% block content %}
 <h2>Tecnologias</h2>
-<a href="{% url 'tecnologia_criar' %}">+ Nova Tecnologia</a>
+  {% if is_gestor %}
+    <a href="{% url 'tecnologia_criar' %}">+ Nova Tecnologia</a>
+  {% endif %}
 <section>
   {% for tecnologia in tecnologias %}
   <article>
@@ -9,8 +11,10 @@
       <h3>{{ tecnologia.nome }}</h3>
       <p>{{ tecnologia.get_categoria_display }}</p>
       <p>{{ tecnologia.get_nivel_interesse_display }}</p>
-      <a href="{% url 'tecnologia_editar' tecnologia.id %}">Editar</a>
-      <a href="{% url 'tecnologia_apagar' tecnologia.id %}">Apagar</a>
+      {% if is_gestor %}
+        <a href="{% url 'tecnologia_editar' tecnologia.id %}">Editar</a>
+        <a href="{% url 'tecnologia_apagar' tecnologia.id %}">Apagar</a>
+      {% endif %}
     </header>
     <section>
       <h4>Projetos</h4>

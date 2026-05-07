@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import (Licenciatura, Projeto, Tecnologia, TFC,
                      Competencia, Formacao, MakingOf, Evento)
 from .forms import ProjetoForm, TecnologiaForm, CompetenciaForm, FormacaoForm
+from django.contrib.auth.decorators import login_required
+
+def is_gestor(user):
+    return user.is_authenticated and user.groups.filter(name='gestor-portfolio').exists()
 
 def index_view(request):
     return render(request, 'portfolio/index.html')
@@ -12,8 +16,13 @@ def licenciaturas_view(request):
 
 def projetos_view(request):
     projetos = Projeto.objects.select_related('unidade_curricular').prefetch_related('tecnologias_usadas').all()
-    return render(request, 'portfolio/projetos.html', {'projetos': projetos})
+    return render(request, 'portfolio/projetos.html', {
+        'projetos': projetos,
+        'is_gestor': is_gestor(request.user)
+    })
 
+
+@login_required
 def projeto_criar_view(request):
     if request.method == 'POST':
         form = ProjetoForm(request.POST, request.FILES)
@@ -24,6 +33,7 @@ def projeto_criar_view(request):
         form = ProjetoForm()
     return render(request, 'portfolio/projeto_form.html', {'form': form, 'titulo': 'Novo Projeto'})
 
+@login_required
 def projeto_editar_view(request, id):
     projeto = get_object_or_404(Projeto, id=id)
     if request.method == 'POST':
@@ -35,6 +45,7 @@ def projeto_editar_view(request, id):
         form = ProjetoForm(instance=projeto)
     return render(request, 'portfolio/projeto_form.html', {'form': form, 'titulo': 'Editar Projeto'})
 
+@login_required
 def projeto_apagar_view(request, id):
     projeto = get_object_or_404(Projeto, id=id)
     if request.method == 'POST':
@@ -43,9 +54,16 @@ def projeto_apagar_view(request, id):
     return render(request, 'portfolio/projeto_confirmar_apagar.html', {'projeto': projeto})
 
 def tecnologias_view(request):
-    tecnologias = Tecnologia.objects.prefetch_related('projetos').all()
-    return render(request, 'portfolio/tecnologias.html', {'tecnologias': tecnologias})
 
+    tecnologias = Tecnologia.objects.prefetch_related('projetos').all()
+
+    return render(request, 'portfolio/tecnologias.html', {
+        'tecnologias': tecnologias,
+        'is_gestor': is_gestor(request.user)
+
+    })
+
+@login_required
 def tecnologia_criar_view(request):
     if request.method == 'POST':
         form = TecnologiaForm(request.POST, request.FILES)
@@ -56,6 +74,7 @@ def tecnologia_criar_view(request):
         form = TecnologiaForm()
     return render(request, 'portfolio/tecnologia_form.html', {'form': form, 'titulo': 'Nova Tecnologia'})
 
+@login_required
 def tecnologia_editar_view(request, id):
     tecnologia = get_object_or_404(Tecnologia, id=id)
     if request.method == 'POST':
@@ -67,6 +86,7 @@ def tecnologia_editar_view(request, id):
         form = TecnologiaForm(instance=tecnologia)
     return render(request, 'portfolio/tecnologia_form.html', {'form': form, 'titulo': 'Editar Tecnologia'})
 
+@login_required
 def tecnologia_apagar_view(request, id):
     tecnologia = get_object_or_404(Tecnologia, id=id)
     if request.method == 'POST':
@@ -79,9 +99,14 @@ def tfcs_view(request):
     return render(request, 'portfolio/tfcs.html', {'tfcs': tfcs})
 
 def competencias_view(request):
-    competencias = Competencia.objects.prefetch_related('projetos', 'tecnologias').all()
-    return render(request, 'portfolio/competencias.html', {'competencias': competencias})
 
+    competencias = Competencia.objects.prefetch_related('projetos', 'tecnologias').all()
+
+    return render(request, 'portfolio/competencias.html', {
+        'competencias': competencias,
+        'is_gestor': is_gestor(request.user)
+
+    })
 def competencia_criar_view(request):
     if request.method == 'POST':
         form = CompetenciaForm(request.POST)
@@ -92,6 +117,7 @@ def competencia_criar_view(request):
         form = CompetenciaForm()
     return render(request, 'portfolio/competencia_form.html', {'form': form, 'titulo': 'Nova Competência'})
 
+@login_required
 def competencia_editar_view(request, id):
     competencia = get_object_or_404(Competencia, id=id)
     if request.method == 'POST':
@@ -103,6 +129,7 @@ def competencia_editar_view(request, id):
         form = CompetenciaForm(instance=competencia)
     return render(request, 'portfolio/competencia_form.html', {'form': form, 'titulo': 'Editar Competência'})
 
+@login_required
 def competencia_apagar_view(request, id):
     competencia = get_object_or_404(Competencia, id=id)
     if request.method == 'POST':
@@ -111,9 +138,16 @@ def competencia_apagar_view(request, id):
     return render(request, 'portfolio/competencia_confirmar_apagar.html', {'competencia': competencia})
 
 def formacoes_view(request):
-    formacoes = Formacao.objects.all()
-    return render(request, 'portfolio/formacoes.html', {'formacoes': formacoes})
 
+    formacoes = Formacao.objects.all()
+
+    return render(request, 'portfolio/formacoes.html', {
+        'formacoes': formacoes,
+        'is_gestor': is_gestor(request.user)
+
+    })
+
+@login_required
 def formacao_criar_view(request):
     if request.method == 'POST':
         form = FormacaoForm(request.POST, request.FILES)
@@ -124,6 +158,7 @@ def formacao_criar_view(request):
         form = FormacaoForm()
     return render(request, 'portfolio/formacao_form.html', {'form': form, 'titulo': 'Nova Formação'})
 
+@login_required
 def formacao_editar_view(request, id):
     formacao = get_object_or_404(Formacao, id=id)
     if request.method == 'POST':
@@ -135,6 +170,7 @@ def formacao_editar_view(request, id):
         form = FormacaoForm(instance=formacao)
     return render(request, 'portfolio/formacao_form.html', {'form': form, 'titulo': 'Editar Formação'})
 
+@login_required
 def formacao_apagar_view(request, id):
     formacao = get_object_or_404(Formacao, id=id)
     if request.method == 'POST':
