@@ -1,0 +1,49 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<section>
+  <article>
+    <header>
+      <h2>{{ artigo.titulo }}</h2>
+      <p>{{ artigo.autor.username }} — {{ artigo.data_criacao|date:"d/m/Y" }}</p>
+      {% if artigo.fotografia %}
+        <img src="{{ artigo.fotografia.url }}" alt="{{ artigo.titulo }}" style="max-width: 400px; width: 100%;">
+      {% endif %}
+      {% if artigo.link_externo %}
+        <p><a href="{{ artigo.link_externo }}" target="_blank">Link externo</a></p>
+      {% endif %}
+    </header>
+    <section>
+      <p>{{ artigo.texto }}</p>
+    </section>
+    <section>
+      <p>{{ artigo.likes.count }} ❤️</p>
+      <a href="{% url 'artigo_like' artigo.id %}">
+        {% if request.user in artigo.likes.all %}Remover like{% else %}Dar like{% endif %}
+      </a>
+      {% if request.user == artigo.autor %}
+        <a href="{% url 'artigo_editar' artigo.id %}">Editar</a>
+        <a href="{% url 'artigo_apagar' artigo.id %}">Apagar</a>
+      {% endif %}
+    </section>
+    <section>
+      <h3>Comentários</h3>
+      {% for comentario in comentarios %}
+        <article>
+          <p><strong>{{ comentario.autor.username }}</strong> — {{ comentario.data_criacao|date:"d/m/Y" }}</p>
+          <p>{{ comentario.texto }}</p>
+        </article>
+      {% empty %}
+        <p>Sem comentários.</p>
+      {% endfor %}
+      {% if request.user.is_authenticated %}
+        <h4>Adicionar comentário</h4>
+        <form method="post" action="{% url 'artigo_comentar' artigo.id %}">
+          {% csrf_token %}
+          {{ form_comentario.as_p }}
+          <button type="submit">Comentar</button>
+        </form>
+      {% endif %}
+    </section>
+  </article>
+</section>
+{% endblock %}
