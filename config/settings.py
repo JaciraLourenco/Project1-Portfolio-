@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "portfolio",
     "escola",
     "markdownify.apps.MarkdownifyConfig",
-    "accounts"
+    "accounts",
+    "sesame"
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,13 @@ MARKDOWNIFY = {
 }
 
 LOGIN_URL = '/accounts/login/'
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "sesame.backends.ModelBackend",
+]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SESAME_TOKEN_PREFIX = ""
+SESAME_URL_SAFE = True

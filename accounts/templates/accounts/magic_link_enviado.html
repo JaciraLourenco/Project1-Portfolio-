@@ -1,0 +1,11 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<h2>Link enviado!</h2>
+<section>
+  <article>
+    <p>Verifica o teu email e clica no link para aceder.</p>
+    <p>Como estamos em modo de desenvolvimento, o link aparece no terminal do servidor.</p>
+    <a href="{% url 'login' %}">Voltar ao login</a>
+  </article>
+</section>
+{% endblock %}
