@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .forms import RegistoForm
 from sesame.utils import get_token
 from django.core.mail import send_mail
@@ -29,7 +29,9 @@ def registo_view(request):
     if request.method == 'POST':
         form = RegistoForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            grupo_autores = Group.objects.get(name='autores')
+            user.groups.add(grupo_autores)
             return redirect('login')
     else:
         form = RegistoForm()

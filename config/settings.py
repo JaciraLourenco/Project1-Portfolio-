@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "escola",
     "markdownify.apps.MarkdownifyConfig",
     "accounts",
-    "sesame"
+    "sesame",
+    "artigos",
 ]
 
 MIDDLEWARE = [
