@@ -25,8 +25,7 @@ SECRET_KEY = "django-insecure-))f%erutj@*^ruw+h)vl!d1*rrf$u%q2#3u(sff!keh^9l-on!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -143,6 +142,10 @@ MARKDOWNIFY = {
 }
 
 LOGIN_URL = '/accounts/login/'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.app.github.dev',
+]
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",

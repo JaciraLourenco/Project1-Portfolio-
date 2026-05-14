@@ -5,8 +5,7 @@ from .forms import ProjetoForm, TecnologiaForm, CompetenciaForm, FormacaoForm
 from django.contrib.auth.decorators import login_required
 
 def is_gestor(user):
-    return user.is_authenticated and user.groups.filter(name='gestor-portfolio').exists()
-
+    return user.is_authenticated and (user.is_superuser or user.groups.filter(name='gestor-portfolio').exists())
 def index_view(request):
     return render(request, 'portfolio/index.html')
 
