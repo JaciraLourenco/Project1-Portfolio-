@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,10 +44,13 @@ INSTALLED_APPS = [
     "accounts",
     "sesame",
     "artigos",
+    "cloudinary",
+    "cloudinary_storage"
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -77,11 +82,39 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
+# inicializar environ
+env = environ.Env()
+
+# ler ficheiro .env
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
+}
+
+STORAGES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+
+#DATABASES = {
+#    "default": {
+#        "ENGINE": "django.db.backends.sqlite3",
+#        "NAME": BASE_DIR / "db.sqlite3",
+#    }
+#}
+
+DATABASES = {
+    "default": env.db("DATABASE_URL")
 }
 
 
@@ -123,28 +156,28 @@ STATIC_URL = "/static/"
 
 import os
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#MEDIA_URL = '/media/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MARKDOWNIFY = {
     "default": {
         "WHITELIST_TAGS": [
-            'abbr', 'acronym',
-            'strong', 'b',
-            'blockquote', 'em', 'i',
-            'ul', 'li', 'ol',
-            'p',
-            'h1', 'h2', 'h3', 'h4',
+            "abbr", "acronym",
+            "strong", "b",
+            "blockquote", "em", "i",
+            "ul", "li", "ol",
+            "p",
+            "h1", "h2", "h3", "h4",
         ]
     }
 }
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = "/accounts/login/"
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.app.github.dev',
+    "https://*.app.github.dev",
 ]
 
 AUTHENTICATION_BACKENDS = [
